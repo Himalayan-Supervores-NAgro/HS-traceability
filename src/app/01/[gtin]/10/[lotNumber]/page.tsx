@@ -5,9 +5,11 @@ import { PublicShell, InfoRow } from "@/components/public/PublicShell";
 import { csvList, formatDate } from "@/lib/utils";
 import { MapPin, ShieldCheck, Package } from "lucide-react";
 import { JourneyTimeline } from "@/components/public/JourneyTimeline";
+import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
+import { ProducerNote } from "@/components/public/ProducerNote";
 
 export const dynamic = "force-dynamic";
 
@@ -45,23 +47,24 @@ export default async function LotPublicPage({
   return (
     <PublicShell companyName={settingsResult.companyName}>
       <div className="p-6">
-                {product.photoUrl && (
+        {product.photoUrl ? (
           <ProductPhotoBadge
             photoUrl={product.photoUrl}
             productName={product.name}
+            variety={product.variety}
             originRegion={product.originRegion}
             originCountry={product.originCountry}
           />
+        ) : (
+          <div className="mb-6">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">
+              <MapPin className="h-3 w-3" /> {product.originRegion ? `${product.originRegion}, ` : ""}
+              {product.originCountry}
+            </p>
+            <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
+            {product.variety && <p className="font-display italic text-ink/60">{product.variety}</p>}
+          </div>
         )}
-
-        <p className="label-eyebrow">Product</p>
-        <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
-        {product.variety && <p className="mt-0.5 font-display italic text-ink/60">{product.variety}</p>}
-
-        <p className="mt-3 flex items-center gap-1.5 text-sm text-sage">
-          <MapPin className="h-4 w-4" /> {product.originRegion ? `${product.originRegion}, ` : ""}
-          {product.originCountry}
-        </p>
 
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
@@ -80,7 +83,7 @@ export default async function LotPublicPage({
           </div>
         )}
 
-                <ProductSpecs
+        <ProductSpecs
           category={product.category}
           weight={product.weight}
           packagingType={product.packagingType}
@@ -96,6 +99,10 @@ export default async function LotPublicPage({
             >
               {producer.name} — <span className="text-sage">{producer.farmName}</span>
             </Link>
+            <ProducerNote producerName={producer.name} farmName={producer.farmName} quote={producer.description} />
+            {producer.gpsLat != null && producer.gpsLng != null && (
+              <LocationMap lat={producer.gpsLat} lng={producer.gpsLng} label={producer.farmName} />
+            )}
           </div>
         )}
 
@@ -103,7 +110,7 @@ export default async function LotPublicPage({
           <p className="label-eyebrow mb-2 flex items-center gap-1.5">
             <Package className="h-3.5 w-3.5" /> Batch traceability
           </p>
-                    <InfoRow label="Lot number" value={lot.lotNumber} />
+          <InfoRow label="Lot number" value={lot.lotNumber} />
           <InfoRow label="Best before" value={formatDate(lot.expiryDate)} />
           <InfoRow label="Destination" value={lot.destination} />
           <InfoRow
@@ -112,7 +119,8 @@ export default async function LotPublicPage({
           />
           <InfoRow label="Storage conditions" value={lot.storageConditions} />
 
-                   <JourneyTimeline events={lot.events} />                <ReferenceFooter gtin={product.gtin} />
+          <JourneyTimeline events={lot.events} />
+          <ReferenceFooter gtin={product.gtin} />
         </div>
       </div>
     </PublicShell>

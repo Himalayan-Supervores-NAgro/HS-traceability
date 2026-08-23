@@ -9,6 +9,7 @@ import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
+import { ProducerNote } from "@/components/public/ProducerNote";
 
 export const dynamic = "force-dynamic";
 
@@ -38,23 +39,25 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
   return (
     <PublicShell companyName={settings.companyName}>
       <div className="p-6">
-        {product.photoUrl && (
-  <ProductPhotoBadge
-    photoUrl={product.photoUrl}
-    productName={product.name}
-    originRegion={product.originRegion}
-    originCountry={product.originCountry}
-  />
-)}
-
-        <p className="label-eyebrow">Product</p>
-        <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
-        {product.variety && <p className="mt-0.5 font-display italic text-ink/60">{product.variety}</p>}
-
-        <p className="mt-3 flex items-center gap-1.5 text-sm text-sage">
-          <MapPin className="h-4 w-4" /> {product.originRegion ? `${product.originRegion}, ` : ""}
-          {product.originCountry}
-        </p>
+        
+          {product.photoUrl ? (
+          <ProductPhotoBadge
+            photoUrl={product.photoUrl}
+            productName={product.name}
+            variety={product.variety}
+            originRegion={product.originRegion}
+            originCountry={product.originCountry}
+          />
+        ) : (
+          <div className="mb-6">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">
+              <MapPin className="h-3 w-3" /> {product.originRegion ? `${product.originRegion}, ` : ""}
+              {product.originCountry}
+            </p>
+            <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
+            {product.variety && <p className="font-display italic text-ink/60">{product.variety}</p>}
+          </div>
+        )}
 
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
@@ -83,12 +86,13 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
                 {producer && (
           <div className="mt-6 border-t border-line pt-4">
             <p className="label-eyebrow mb-2">Producer</p>
-            <Link
+                        <Link
               href={`/producer/${producer.id}`}
               className="block rounded-md border border-line px-3 py-2 text-sm hover:bg-pine-50/60"
             >
               {producer.name} — <span className="text-sage">{producer.farmName}</span>
             </Link>
+            <ProducerNote producerName={producer.name} farmName={producer.farmName} quote={producer.description} />
             {producer.gpsLat != null && producer.gpsLng != null && (
               <LocationMap lat={producer.gpsLat} lng={producer.gpsLng} label={producer.farmName} />
             )}

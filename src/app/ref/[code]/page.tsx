@@ -9,6 +9,8 @@ import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { findProductByInternalRef } from "@/lib/product-lookup";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
+import { ProducerNote } from "@/components/public/ProducerNote";
+
 
 export const dynamic = "force-dynamic";
 
@@ -27,23 +29,24 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
   return (
     <PublicShell companyName={settings.companyName}>
       <div className="p-6">
-        {product.photoUrl && (
+        {product.photoUrl ? (
           <ProductPhotoBadge
             photoUrl={product.photoUrl}
             productName={product.name}
+            variety={product.variety}
             originRegion={product.originRegion}
             originCountry={product.originCountry}
           />
+        ) : (
+          <div className="mb-6">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">
+              <MapPin className="h-3 w-3" /> {product.originRegion ? `${product.originRegion}, ` : ""}
+              {product.originCountry}
+            </p>
+            <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
+            {product.variety && <p className="font-display italic text-ink/60">{product.variety}</p>}
+          </div>
         )}
-
-        <p className="label-eyebrow">Product</p>
-        <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
-        {product.variety && <p className="mt-0.5 font-display italic text-ink/60">{product.variety}</p>}
-
-        <p className="mt-3 flex items-center gap-1.5 text-sm text-sage">
-          <MapPin className="h-4 w-4" /> {product.originRegion ? `${product.originRegion}, ` : ""}
-          {product.originCountry}
-        </p>
 
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
@@ -62,7 +65,7 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
           </div>
         )}
 
-                <ProductSpecs
+        <ProductSpecs
           category={product.category}
           weight={product.weight}
           packagingType={product.packagingType}
@@ -78,6 +81,7 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
             >
               {producer.name} — <span className="text-sage">{producer.farmName}</span>
             </Link>
+            <ProducerNote producerName={producer.name} farmName={producer.farmName} quote={producer.description} />
             {producer.gpsLat != null && producer.gpsLng != null && (
               <LocationMap lat={producer.gpsLat} lng={producer.gpsLng} label={producer.farmName} />
             )}
@@ -90,10 +94,11 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
               <Package className="h-3.5 w-3.5" /> Batch traceability
             </p>
             <InfoRow label="Latest lot" value={latestLot.lotNumber} />
+            <ReferenceFooter gtin={product.gtin} />
             <Link
-              href={`/ref/${product.internalRef}/lot/${latestLot.lotNumber}`}
+              href={`/ref/${params.code}/lot/${latestLot.lotNumber}`}
               className="mt-3 inline-block rounded-md border border-line px-3 py-2 text-sm text-pine-700 hover:bg-pine-50/60 hover:underline"
-            >               <ReferenceFooter gtin={product.gtin} />
+            >
               View full batch certificate →
             </Link>
           </div>
