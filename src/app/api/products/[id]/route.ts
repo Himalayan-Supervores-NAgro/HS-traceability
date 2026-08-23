@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { productSchema } from "@/lib/validation";
+import { productBaseSchemaPartial } from "@/lib/validation"
 import { requireAdmin, isUnauthorized } from "@/lib/require-admin";
 import { normalizeGtinTo14 } from "@/lib/gs1";
 import type { Prisma } from "@prisma/client";
@@ -26,15 +26,18 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (isUnauthorized(admin)) return admin;
 
   const body = await req.json().catch(() => null);
-  const parsed = productSchema.partial().safeParse(body);
+  const parsed = productBaseSchemaPartial.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  if (parsed.data.gtin) {
-    parsed.data.gtin = normalizeGtinTo14(parsed.data.gtin);
+  // noGtin is a form-only flag, not a database column — strip it before update.
+  const { noGtin, ...data } = parsed.data;
+
+  if (data.gtin) {
+    data.gtin = normalizeGtinTo14(data.gtin);
     const conflict = await db.product.findFirst({
-      where: { gtin: parsed.data.gtin, NOT: { id: params.id } },
+      where: { gtin: data.gtin, NOT: { id: params.id } },
     });
     if (conflict) {
       return NextResponse.json({ error: "This GTIN is already assigned to another product." }, { status: 409 });
@@ -43,7 +46,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
   const product = await db.product.update({
     where: { id: params.id },
-    data: parsed.data as Prisma.ProductUncheckedUpdateInput,
+    data: data as Prisma.ProductUncheckedUpdateInput,
   });
   return NextResponse.json({ product });
 }

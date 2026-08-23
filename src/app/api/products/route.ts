@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { productSchema } from "@/lib/validation";
 import { requireAdmin, isUnauthorized } from "@/lib/require-admin";
-import { normalizeGtinTo14 } from "@/lib/gs1";
+import { normalizeGtinTo14, generateInternalRef } from "@/lib/gs1";
 import type { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
@@ -50,7 +50,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const normalizedGtin = normalizeGtinTo14(parsed.data.gtin);
+  const { noGtin, gtin, ...rest } = parsed.data;
+
+  if (noGtin) {
+    // No GS1 GTIN for this product — generate a unique internal reference
+    // instead, and make sure gtin/isDemoGtin stay empty.
+    let internalRef = generateInternalRef();
+    while (await db.product.findUnique({ where: { internalRef } })) {
+      internalRef = generateInternalRef();
+    }
+    const product = await db.product.create({
+      data: {
+        ...rest,
+        gtin: null,
+        isDemoGtin: false,
+        internalRef,
+      } as Prisma.ProductUncheckedCreateInput,
+    });
+    return NextResponse.json({ product }, { status: 201 });
+  }
+
+  const normalizedGtin = normalizeGtinTo14(gtin!);
   const existing = await db.product.findUnique({ where: { gtin: normalizedGtin } });
   if (existing) {
     return NextResponse.json({ error: "This GTIN is already assigned to another product." }, { status: 409 });
@@ -59,7 +79,7 @@ export async function POST(req: Request) {
   // GS1 Digital Link always expresses the GTIN AI (01) as 14 digits — store
   // the canonical form so resolver lookups are a simple equality check.
   const product = await db.product.create({
-    data: { ...parsed.data, gtin: normalizedGtin } as Prisma.ProductUncheckedCreateInput,
+    data: { ...rest, gtin: normalizedGtin, internalRef: null } as Prisma.ProductUncheckedCreateInput,
   });
   return NextResponse.json({ product }, { status: 201 });
 }

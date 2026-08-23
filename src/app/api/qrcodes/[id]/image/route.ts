@@ -18,7 +18,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     return new NextResponse(svg, {
       headers: {
         "Content-Type": "image/svg+xml",
-        "Content-Disposition": `inline; filename="qr-${qrCode.gtin}.svg"`,
+                "Content-Disposition": `inline; filename="qr-${qrCode.gtin ?? qrCode.id}.svg"`,
       },
     });
   }
@@ -29,7 +29,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   return new NextResponse(buffer, {
     headers: {
       "Content-Type": "image/png",
-      "Content-Disposition": `inline; filename="qr-${qrCode.gtin}.png"`,
+            "Content-Disposition": `inline; filename="qr-${qrCode.gtin ?? qrCode.id}.png"`,
     },
   });
 }

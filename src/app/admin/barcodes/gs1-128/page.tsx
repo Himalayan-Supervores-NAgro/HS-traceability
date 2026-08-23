@@ -15,7 +15,9 @@ export default async function Gs1_128Page() {
         description="A Code 128 logistics barcode for shipping cartons and pallets — carries the GTIN plus, when a batch is selected, the lot number, packing date and net weight. Used for warehouse/logistics scanning, not at the check-out counter."
       />
       <Gs1_128Generator
-        products={products.map((p) => ({ id: p.id, name: p.name, gtin: p.gtin }))}
+        products={products
+          .filter((p) => p.gtin !== null)
+          .map((p) => ({ id: p.id, name: p.name, gtin: p.gtin as string }))}
         lots={lots.map((l) => ({ id: l.id, lotNumber: l.lotNumber, productId: l.productId }))}
       />
     </div>

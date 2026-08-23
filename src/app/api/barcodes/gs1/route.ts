@@ -15,6 +15,14 @@ export async function GET(req: Request) {
   const product = await db.product.findUnique({ where: { id: productId } });
   if (!product) return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
+  
+  if (!product.gtin) {
+    return NextResponse.json(
+      { error: "This product has no GTIN — GS1 barcodes require a GTIN." },
+      { status: 400 }
+    );
+  }
+
   if (format === "svg") {
     const { svg } = generateGs1BarcodeSvg(product.gtin);
     return new NextResponse(svg, {

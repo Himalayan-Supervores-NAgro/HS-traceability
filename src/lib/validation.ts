@@ -21,13 +21,11 @@ export const producerSchema = z.object({
   isPublic: z.coerce.boolean().default(true),
 });
 
-export const productSchema = z.object({
-  gtin: z
-    .string()
-    .min(8, "GTIN is required")
-    .refine((v) => isValidGtinFormat(v), {
-      message: "Invalid GTIN: length or check digit is incorrect",
-    }),
+const productBaseSchema = z.object({
+  gtin: z.string().optional().nullable(),
+  /// True when the product has no GS1 GTIN yet; an internal reference
+  /// (Product.internalRef) is generated server-side instead.
+  noGtin: z.coerce.boolean().default(false),
   isDemoGtin: z.coerce.boolean().default(false),
   sku: z.string().optional().nullable(),
   name: z.string().min(2, "Product name is required"),
@@ -45,6 +43,19 @@ export const productSchema = z.object({
   photoUrl: z.string().optional().nullable(),
   isActive: z.coerce.boolean().default(true),
 });
+
+export const productSchema = productBaseSchema.refine(
+  (data) => data.noGtin || (!!data.gtin && isValidGtinFormat(data.gtin)),
+  {
+    message: "Provide a valid GTIN, or check 'No GTIN' to use an internal reference instead.",
+    path: ["gtin"],
+  }
+);
+
+// Used by the PATCH endpoint (partial updates). `.partial()` isn't
+// available once `.refine()` wraps the schema above, so this base version
+// is exported separately for that one use case.
+export const productBaseSchemaPartial = productBaseSchema.partial();
 
 export const lotSchema = z.object({
   lotNumber: z.string().min(2, "Lot number is required"),

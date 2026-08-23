@@ -30,6 +30,13 @@ export async function GET(req: Request) {
     if (lot.quantity && lot.unit?.toLowerCase() === "kg") netWeightKg = lot.quantity;
   }
 
+    if (!product.gtin) {
+    return NextResponse.json(
+      { error: "This product has no GTIN — GS1-128 barcodes require a GTIN." },
+      { status: 400 }
+    );
+  }
+
   const text = buildGs1_128Text(product.gtin, { lotNumber, packingDate, netWeightKg });
 
   if (format === "svg") {

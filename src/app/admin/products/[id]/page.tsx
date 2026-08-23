@@ -32,9 +32,13 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
   return (
     <div>
-      <PageHeader
+            <PageHeader
         title={product.name}
-        description={`GTIN ${product.gtin}${product.isDemoGtin ? " · demo GTIN" : ""}`}
+        description={
+          product.gtin
+            ? `GTIN ${product.gtin}${product.isDemoGtin ? " · demo GTIN" : ""}`
+            : `Reference ${product.internalRef} · no GTIN`
+        }
         action={
           <DeleteButton
             endpoint={`/api/products/${product.id}`}
@@ -47,9 +51,11 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
       <div className="grid gap-6 lg:grid-cols-[1fr,360px]">
         <ProductForm
           producers={producers}
-          initial={{
+                    initial={{
             id: product.id,
-            gtin: product.gtin,
+            gtin: product.gtin ?? "",
+            internalRef: product.internalRef ?? "",
+            noGtin: !product.gtin,
             isDemoGtin: product.isDemoGtin,
             sku: product.sku ?? "",
             name: product.name,

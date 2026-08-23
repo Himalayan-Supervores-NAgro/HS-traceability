@@ -7,7 +7,7 @@ import { Printer, Loader2 } from "lucide-react";
 
 export type QrRow = {
   id: string;
-  gtin: string;
+    gtin: string | null;
   productId: string;
   productName: string;
   lotNumber: string | null;
@@ -88,7 +88,7 @@ export function QrCodesTable({ rows }: { rows: QrRow[] }) {
                   {row.productName}
                 </Link>
               </td>
-              <td className="px-4 py-3 font-mono text-xs text-ink/80">{row.gtin}</td>
+                            <td className="px-4 py-3 font-mono text-xs text-ink/80">{row.gtin ?? "No GTIN"}</td>
               <td className="px-4 py-3 font-mono text-xs text-ink/80">{row.lotNumber ?? "—"}</td>
               <td className="max-w-[240px] truncate px-4 py-3 font-mono text-xs text-ink/60">
                 {row.digitalLinkUrl}

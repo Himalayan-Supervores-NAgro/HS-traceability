@@ -271,12 +271,12 @@ async function main() {
     const lot = await db.lot.findUniqueOrThrow({ where: { lotNumber: l.lotNumber } });
     const existing = await db.qrCode.findFirst({ where: { productId: product.id, lotId: lot.id } });
     if (existing) continue;
-    await db.qrCode.create({
+        await db.qrCode.create({
       data: {
-        gtin: product.gtin,
+        gtin: product.gtin!,
         productId: product.id,
         lotId: lot.id,
-        digitalLinkUrl: buildDigitalLinkUrl(settings.domain, product.gtin, lot.lotNumber),
+        digitalLinkUrl: buildDigitalLinkUrl(settings.domain, product.gtin!, lot.lotNumber),
       },
     });
   }

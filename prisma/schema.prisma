@@ -75,7 +75,10 @@ model Product {
   id             String   @id @default(cuid())
   /// GS1 Global Trade Item Number — the number that identifies *what* the
   /// item is to every trading partner. NOT the same thing as `sku` below.
-  gtin           String   @unique
+  gtin           String?  @unique
+  /// Internal reference code used instead of a GTIN when the company hasn't
+  /// paid for a GS1 barcode for this product. Powers the /ref/[code] pages.
+  internalRef    String?  @unique
   /// True for the fictitious demo GTINs seeded with this project.
   /// Never expose a demo GTIN as if it were a real, GS1-issued number.
   isDemoGtin     Boolean  @default(false)
@@ -140,7 +143,7 @@ model Lot {
 /// the URL that is already printed on packaging.
 model QrCode {
   id             String   @id @default(cuid())
-  gtin           String
+  gtin           String?
   lotId          String?
   lot            Lot?     @relation(fields: [lotId], references: [id])
   productId      String

@@ -149,3 +149,34 @@ export function buildDigitalLinkUrl(
   }
   return base;
 }
+/**
+ * Generates a short internal reference code for products that don't have a
+ * GS1-issued GTIN yet (e.g. because the company hasn't paid for a GS1
+ * Company Prefix). Format: HS-XXXXXX, using a restricted alphabet that
+ * excludes ambiguous characters (0/O, 1/I) for easier manual entry.
+ * Not cryptographically random — uniqueness is checked by the caller
+ * against the database, which is what actually matters here.
+ */
+export function generateInternalRef(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `HS-${code}`;
+}
+
+export function buildRefUrl(
+  domain: string,
+  internalRef: string,
+  lotNumber?: string | null
+): string {
+  const cleanDomain = domain.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  const isLocalDev = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(cleanDomain);
+  const protocol = isLocalDev ? "http" : "https";
+  const base = `${protocol}://${cleanDomain}/ref/${encodeURIComponent(internalRef)}`;
+  if (lotNumber && lotNumber.trim().length > 0) {
+    return `${base}/lot/${encodeURIComponent(lotNumber.trim())}`;
+  }
+  return base;
+}

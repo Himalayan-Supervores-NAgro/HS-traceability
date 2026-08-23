@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin, isUnauthorized } from "@/lib/require-admin";
-import { buildDigitalLinkUrl } from "@/lib/gs1";
+import { buildDigitalLinkUrl, buildRefUrl } from "@/lib/gs1";
 import { resolveBaseDomain } from "@/lib/utils";
 import { z } from "zod";
 
@@ -42,13 +42,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ qrCode: existing });
   }
 
+   if (!product.gtin && !product.internalRef) {
+    return NextResponse.json(
+      { error: "This product has neither a GTIN nor an internal reference." },
+      { status: 500 }
+    );
+  }
+
   const settings = await db.settings.findUnique({ where: { id: "singleton" } });
   const domain = resolveBaseDomain(settings?.domain);
-  const digitalLinkUrl = buildDigitalLinkUrl(domain, product.gtin, lotNumber);
+  const digitalLinkUrl = product.gtin
+    ? buildDigitalLinkUrl(domain, product.gtin, lotNumber)
+    : buildRefUrl(domain, product.internalRef!, lotNumber);
 
-  const qrCode = await db.qrCode.create({
+
+    const qrCode = await db.qrCode.create({
     data: {
-      gtin: product.gtin,
+      gtin: product.gtin ?? null,
       productId,
       lotId: lotId ?? null,
       digitalLinkUrl,

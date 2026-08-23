@@ -11,6 +11,8 @@ export type ProducerOption = { id: string; name: string; farmName: string };
 export type ProductFormValues = {
   id?: string;
   gtin: string;
+  noGtin: boolean;
+  internalRef?: string;
   isDemoGtin: boolean;
   sku: string;
   name: string;
@@ -31,6 +33,8 @@ export type ProductFormValues = {
 
 const EMPTY: ProductFormValues = {
   gtin: "",
+  noGtin: false,
+  internalRef: "",
   isDemoGtin: false,
   sku: "",
   name: "",
@@ -76,7 +80,7 @@ export function ProductForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const isEdit = Boolean(initial?.id);
-  const gtinCheck = gtinHint(values.gtin);
+    const gtinCheck = values.noGtin ? { valid: true, message: "" } : gtinHint(values.gtin);
 
   function set<K extends keyof ProductFormValues>(key: K, val: ProductFormValues[K]) {
     setValues((v) => ({ ...v, [key]: val }));
@@ -111,32 +115,62 @@ export function ProductForm({
     <form onSubmit={handleSubmit} className="card space-y-6 p-6">
       {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
+            <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={values.noGtin}
+          onChange={(e) => set("noGtin", e.target.checked)}
+          className="h-4 w-4 rounded border-line text-pine-700 focus:ring-pine-600"
+        />
+        No GTIN yet — use a free internal reference instead
+      </label>
+
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="GTIN" required hint={gtinCheck.message}>
-          <input
-            className={`field-input font-mono ${
-              values.gtin ? (gtinCheck.valid ? "border-pine-400" : "border-red-300") : ""
-            }`}
-            required
-            value={values.gtin}
-            onChange={(e) => set("gtin", e.target.value)}
-            placeholder="8901234567894"
-          />
-        </Field>
+        {values.noGtin ? (
+          <Field
+            label="Internal reference"
+            hint={
+              values.internalRef
+                ? "Generated automatically — printed on the QR Code instead of a GTIN."
+                : "Will be generated automatically when you save."
+            }
+          >
+            <input
+              className="field-input font-mono bg-pine-50/40"
+              value={values.internalRef ?? ""}
+              disabled
+              placeholder="Generated on save"
+            />
+          </Field>
+        ) : (
+          <Field label="GTIN" required hint={gtinCheck.message}>
+            <input
+              className={`field-input font-mono ${
+                values.gtin ? (gtinCheck.valid ? "border-pine-400" : "border-red-300") : ""
+              }`}
+              required={!values.noGtin}
+              value={values.gtin}
+              onChange={(e) => set("gtin", e.target.value)}
+              placeholder="8901234567894"
+            />
+          </Field>
+        )}
         <Field label="Internal SKU (optional)" hint="Your own warehouse code — never printed on the QR Code.">
           <input className="field-input" value={values.sku} onChange={(e) => set("sku", e.target.value)} />
         </Field>
       </div>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={values.isDemoGtin}
-          onChange={(e) => set("isDemoGtin", e.target.checked)}
-          className="h-4 w-4 rounded border-line text-pine-700 focus:ring-pine-600"
-        />
-        This is a demo/test GTIN, not one officially issued by GS1
-      </label>
+      {!values.noGtin && (
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={values.isDemoGtin}
+            onChange={(e) => set("isDemoGtin", e.target.checked)}
+            className="h-4 w-4 rounded border-line text-pine-700 focus:ring-pine-600"
+          />
+          This is a demo/test GTIN, not one officially issued by GS1
+        </label>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Product name" required>

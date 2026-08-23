@@ -4,7 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-export type ProductOption = { id: string; name: string; gtin: string; producerId: string | null };
+export type ProductOption = {
+  id: string;
+  name: string;
+  gtin: string | null;
+  internalRef: string | null;
+  producerId: string | null;
+};
+
 export type ProducerOption = { id: string; name: string };
 
 export type LotFormValues = {
@@ -119,7 +126,7 @@ export function LotForm({
             <option value="">Select a product…</option>
             {products.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.name} — {p.gtin}
+                {p.name} — {p.gtin ?? p.internalRef}
               </option>
             ))}
           </select>
@@ -137,7 +144,7 @@ export function LotForm({
         </select>
       </Field>
 
-            <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-4">
         <Field label="Harvest date">
           <input
             type="date"
