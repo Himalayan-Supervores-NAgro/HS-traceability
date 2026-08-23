@@ -93,7 +93,7 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
             <Link
               href={`/ref/${product.internalRef}/lot/${latestLot.lotNumber}`}
               className="mt-3 inline-block rounded-md border border-line px-3 py-2 text-sm text-pine-700 hover:bg-pine-50/60 hover:underline"
-            >        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
+            >               <ReferenceFooter gtin={product.gtin} />
               View full batch certificate →
             </Link>
           </div>

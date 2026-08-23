@@ -100,7 +100,7 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
             <p className="label-eyebrow mb-2 flex items-center gap-1.5">
               <Package className="h-3.5 w-3.5" /> Batch traceability
             </p>
-            <InfoRow label="Latest lot" value={latestLot.lotNumber} />  <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
+            <InfoRow label="Latest lot" value={latestLot.lotNumber} />     <ReferenceFooter gtin={product.gtin} />
             <Link
               href={`/01/${product.gtin}/10/${latestLot.lotNumber}`}
               className="mt-3 inline-block rounded-md border border-line px-3 py-2 text-sm text-pine-700 hover:bg-pine-50/60 hover:underline"

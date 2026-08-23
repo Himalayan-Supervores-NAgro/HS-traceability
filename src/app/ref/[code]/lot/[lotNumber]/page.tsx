@@ -106,7 +106,7 @@ export default async function LotRefPublicPage({
             value={lot.quantity ? `${lot.quantity} ${lot.unit || ""}` : undefined}
           />
           <InfoRow label="Storage conditions" value={lot.storageConditions} />
-        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
+                <ReferenceFooter gtin={product.gtin} />
           <JourneyTimeline events={lot.events} />
         </div>
       </div>

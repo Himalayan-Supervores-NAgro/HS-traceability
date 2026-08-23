@@ -112,7 +112,7 @@ export default async function LotPublicPage({
           />
           <InfoRow label="Storage conditions" value={lot.storageConditions} />
 
-                   <JourneyTimeline events={lot.events} />        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
+                   <JourneyTimeline events={lot.events} />                <ReferenceFooter gtin={product.gtin} />
         </div>
       </div>
     </PublicShell>
