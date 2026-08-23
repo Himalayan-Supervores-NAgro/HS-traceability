@@ -7,6 +7,8 @@ import { MapPin, ShieldCheck, Package } from "lucide-react";
 import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { findProductByInternalRef } from "@/lib/product-lookup";
+import { ProductSpecs } from "@/components/public/ProductSpecs";
+import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -60,13 +62,12 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
           </div>
         )}
 
-        <div className="mt-6 border-t border-line pt-4">
-          <InfoRow label="Reference" value={product.internalRef} />
-          <InfoRow label="Category" value={product.category} />
-          <InfoRow label="Selling unit" value={product.sellingUnit} />
-          <InfoRow label="Weight" value={product.weight} />
-          <InfoRow label="Packaging" value={product.packagingType} />
-        </div>
+                <ProductSpecs
+          category={product.category}
+          weight={product.weight}
+          packagingType={product.packagingType}
+          sellingUnit={product.sellingUnit}
+        />
 
         {producer && (
           <div className="mt-6 border-t border-line pt-4">
@@ -92,7 +93,7 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
             <Link
               href={`/ref/${product.internalRef}/lot/${latestLot.lotNumber}`}
               className="mt-3 inline-block rounded-md border border-line px-3 py-2 text-sm text-pine-700 hover:bg-pine-50/60 hover:underline"
-            >
+            >        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
               View full batch certificate →
             </Link>
           </div>

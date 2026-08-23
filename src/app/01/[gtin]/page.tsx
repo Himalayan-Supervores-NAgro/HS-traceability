@@ -7,6 +7,8 @@ import { MapPin, ShieldCheck, Package } from "lucide-react";
 import { JourneyTimeline } from "@/components/public/JourneyTimeline";
 import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
+import { ProductSpecs } from "@/components/public/ProductSpecs";
+import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -71,13 +73,12 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
           </div>
         )}
 
-        <div className="mt-6 border-t border-line pt-4">
-          <InfoRow label="GTIN" value={product.gtin} />
-          <InfoRow label="Category" value={product.category} />
-          <InfoRow label="Selling unit" value={product.sellingUnit} />
-          <InfoRow label="Weight" value={product.weight} />
-          <InfoRow label="Packaging" value={product.packagingType} />
-        </div>
+                <ProductSpecs
+          category={product.category}
+          weight={product.weight}
+          packagingType={product.packagingType}
+          sellingUnit={product.sellingUnit}
+        />       
 
                 {producer && (
           <div className="mt-6 border-t border-line pt-4">
@@ -99,7 +100,7 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
             <p className="label-eyebrow mb-2 flex items-center gap-1.5">
               <Package className="h-3.5 w-3.5" /> Batch traceability
             </p>
-            <InfoRow label="Latest lot" value={latestLot.lotNumber} />
+            <InfoRow label="Latest lot" value={latestLot.lotNumber} />  <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
             <Link
               href={`/01/${product.gtin}/10/${latestLot.lotNumber}`}
               className="mt-3 inline-block rounded-md border border-line px-3 py-2 text-sm text-pine-700 hover:bg-pine-50/60 hover:underline"

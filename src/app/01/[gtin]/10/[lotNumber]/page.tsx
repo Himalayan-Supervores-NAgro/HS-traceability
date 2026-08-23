@@ -6,6 +6,8 @@ import { csvList, formatDate } from "@/lib/utils";
 import { MapPin, ShieldCheck, Package } from "lucide-react";
 import { JourneyTimeline } from "@/components/public/JourneyTimeline";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
+import { ReferenceFooter } from "@/components/public/ReferenceFooter";
+import { ProductSpecs } from "@/components/public/ProductSpecs";
 
 export const dynamic = "force-dynamic";
 
@@ -78,10 +80,12 @@ export default async function LotPublicPage({
           </div>
         )}
 
-        <div className="mt-6 border-t border-line pt-4">
-          <InfoRow label="GTIN" value={product.gtin} />
-          <InfoRow label="Category" value={product.category} />
-        </div>
+                <ProductSpecs
+          category={product.category}
+          weight={product.weight}
+          packagingType={product.packagingType}
+          sellingUnit={product.sellingUnit}
+        />
 
         {producer && (
           <div className="mt-6 border-t border-line pt-4">
@@ -108,7 +112,7 @@ export default async function LotPublicPage({
           />
           <InfoRow label="Storage conditions" value={lot.storageConditions} />
 
-                   <JourneyTimeline events={lot.events} />
+                   <JourneyTimeline events={lot.events} />        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
         </div>
       </div>
     </PublicShell>

@@ -7,6 +7,8 @@ import { MapPin, ShieldCheck, Package } from "lucide-react";
 import { JourneyTimeline } from "@/components/public/JourneyTimeline";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { findProductByInternalRef } from "@/lib/product-lookup";
+import { ProductSpecs } from "@/components/public/ProductSpecs";
+import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -73,10 +75,12 @@ export default async function LotRefPublicPage({
           </div>
         )}
 
-        <div className="mt-6 border-t border-line pt-4">
-          <InfoRow label="Reference" value={product.internalRef} />
-          <InfoRow label="Category" value={product.category} />
-        </div>
+                <ProductSpecs
+          category={product.category}
+          weight={product.weight}
+          packagingType={product.packagingType}
+          sellingUnit={product.sellingUnit}
+        />
 
         {producer && (
           <div className="mt-6 border-t border-line pt-4">
@@ -102,7 +106,7 @@ export default async function LotRefPublicPage({
             value={lot.quantity ? `${lot.quantity} ${lot.unit || ""}` : undefined}
           />
           <InfoRow label="Storage conditions" value={lot.storageConditions} />
-
+        <ReferenceFooter gtin={product.gtin} internalRef={product.internalRef} />
           <JourneyTimeline events={lot.events} />
         </div>
       </div>
