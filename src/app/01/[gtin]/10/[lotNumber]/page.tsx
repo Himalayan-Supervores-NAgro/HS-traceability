@@ -9,6 +9,7 @@ import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
+import { ProcessSteps } from "@/components/public/ProcessSteps";
 
 export const dynamic = "force-dynamic";
 
@@ -20,11 +21,11 @@ export default async function LotPublicPage({
   const raw = params.gtin;
   const stripped = raw.replace(/^0+/, "");
 
-  const product = await db.product.findFirst({
+    const product = await db.product.findFirst({
     where: {
       OR: [{ gtin: raw }, { gtin: stripped }, { gtin: raw.padStart(14, "0") }],
     },
-    include: { producer: true },
+    include: { producer: true, processSteps: { orderBy: { order: "asc" } } },
   });
 
   if (!product || !product.isActive) notFound();
@@ -68,7 +69,7 @@ export default async function LotPublicPage({
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
         )}
-
+<ProcessSteps steps={product.processSteps} />
         {certifications.length > 0 && (
           <div className="mt-5">
             <p className="label-eyebrow mb-2">Certification</p>

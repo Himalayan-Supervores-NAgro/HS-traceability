@@ -6,6 +6,7 @@ import { PageHeader, StatusBadge, DeleteButton } from "@/components/admin/ui";
 import { ProductForm } from "@/components/admin/ProductForm";
 import { QrCodeCard } from "@/components/admin/QrCodeCard";
 import { formatDate } from "@/lib/utils";
+import { ProcessStepsEditor } from "@/components/admin/ProcessStepsEditor";
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
   const [product, producers] = await Promise.all([
@@ -15,6 +16,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
         producer: true,
         lots: { orderBy: { createdAt: "desc" } },
         qrCodes: { where: { lotId: null, isActive: true }, orderBy: { createdAt: "desc" }, take: 1 },
+        processSteps: { orderBy: { order: "asc" } },
       },
     }),
     db.producer.findMany({ orderBy: { name: "asc" } }),
@@ -76,7 +78,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
         />
 
         <div className="space-y-6">
-          <QrCodeCard productId={product.id} initialQrCode={qrCode} />
+          <QrCodeCard productId={product.id} initialQrCode={qrCode} /><ProcessStepsEditor productId={product.id} initialSteps={product.processSteps} />
 
           <div className="card p-5">
             <div className="mb-3 flex items-center justify-between">

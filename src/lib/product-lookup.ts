@@ -12,6 +12,7 @@ export async function findProductByGtin(raw: string) {
     include: {
       producer: true,
       lots: { orderBy: { createdAt: "desc" }, include: { events: { orderBy: { eventDate: "asc" } } } },
+      processSteps: { orderBy: { order: "asc" } },
     },
   });
 }
@@ -25,6 +26,7 @@ export async function findProductByInternalRef(code: string) {
     include: {
       producer: true,
       lots: { orderBy: { createdAt: "desc" }, include: { events: { orderBy: { eventDate: "asc" } } } },
+      processSteps: { orderBy: { order: "asc" } },
     },
   });
 }

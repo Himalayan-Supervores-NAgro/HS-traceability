@@ -9,6 +9,7 @@ import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
+import { ProcessSteps } from "@/components/public/ProcessSteps";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,10 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
       where: {
         OR: [{ gtin: raw }, { gtin: stripped }, { gtin: raw.padStart(14, "0") }],
       },
-      include: {
+            include: {
         producer: true,
         lots: { orderBy: { createdAt: "desc" }, include: { events: { orderBy: { eventDate: "asc" } } } },
+        processSteps: { orderBy: { order: "asc" } },
       },
     }),
     db.settings.upsert({ where: { id: "singleton" }, update: {}, create: { id: "singleton" } }),
@@ -61,7 +63,7 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
         )}
-
+<ProcessSteps steps={product.processSteps} />
         {certifications.length > 0 && (
           <div className="mt-5">
             <p className="label-eyebrow mb-2">Certification</p>

@@ -105,6 +105,7 @@ model Product {
 
   lots    Lot[]
   qrCodes QrCode[]
+  processSteps ProcessStep[]
 
   @@index([category])
   @@index([isActive])
@@ -170,4 +171,20 @@ model LotEvent {
   createdAt DateTime @default(now())
 
   @@index([lotId])
+}
+/// An optional, reusable production step for this product (e.g. "Hand-sorting",
+/// "Sun-drying"). Not tied to a specific lot — the same steps appear on every
+/// public page for this product, across all its lots.
+model ProcessStep {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order       Int      @default(0)
+  title       String
+  description String?
+  photoUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([productId])
 }

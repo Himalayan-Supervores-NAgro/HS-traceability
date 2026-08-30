@@ -9,6 +9,7 @@ import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { findProductByInternalRef } from "@/lib/product-lookup";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
+import { ProcessSteps } from "@/components/public/ProcessSteps";
 
 
 export const dynamic = "force-dynamic";
@@ -50,7 +51,7 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
         )}
-
+<ProcessSteps steps={product.processSteps} />
         {certifications.length > 0 && (
           <div className="mt-5">
             <p className="label-eyebrow mb-2">Certification</p>

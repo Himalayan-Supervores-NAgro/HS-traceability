@@ -85,3 +85,9 @@ export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
 });
+export const processStepSchema = z.object({
+  order: z.coerce.number().default(0),
+  title: z.string().min(2, "Title is required"),
+  description: z.string().optional().nullable(),
+  photoUrl: z.string().optional().nullable(),
+});
