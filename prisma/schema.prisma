@@ -182,7 +182,8 @@ model ProcessStep {
   order       Int      @default(0)
   title       String
   description String?
-  photoUrl    String?
+  /// Comma-separated list of photo URLs, e.g. "https://.../a.jpg,https://.../b.jpg"
+  photoUrls   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

@@ -89,5 +89,5 @@ export const processStepSchema = z.object({
   order: z.coerce.number().default(0),
   title: z.string().min(2, "Title is required"),
   description: z.string().optional().nullable(),
-  photoUrl: z.string().optional().nullable(),
+  photoUrls: z.string().optional().nullable(),
 });
