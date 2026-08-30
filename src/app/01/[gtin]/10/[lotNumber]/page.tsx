@@ -69,7 +69,7 @@ export default async function LotPublicPage({
         {product.description && (
           <p className="mt-5 text-sm leading-relaxed text-ink/80">{product.description}</p>
         )}
-<ProcessSteps steps={product.processSteps} />
+        <ProcessSteps steps={product.processSteps} productId={product.id} />
         {certifications.length > 0 && (
           <div className="mt-5">
             <p className="label-eyebrow mb-2">Certification</p>
