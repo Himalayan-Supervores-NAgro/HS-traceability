@@ -9,7 +9,6 @@ import { LocationMap } from "@/components/public/LocationMap";
 import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
-import { ProducerNote } from "@/components/public/ProducerNote";
 
 export const dynamic = "force-dynamic";
 
@@ -99,7 +98,7 @@ export default async function LotPublicPage({
             >
               {producer.name} — <span className="text-sage">{producer.farmName}</span>
             </Link>
-            <ProducerNote producerName={producer.name} farmName={producer.farmName} quote={producer.description} />
+            
             {producer.gpsLat != null && producer.gpsLng != null && (
               <LocationMap lat={producer.gpsLat} lng={producer.gpsLng} label={producer.farmName} />
             )}
