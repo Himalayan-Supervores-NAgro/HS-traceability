@@ -20,7 +20,7 @@ export function PublicShell({
               href={websiteUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 text-base font-semibold text-pine-700 hover:underline"
+              className="label-eyebrow mt-1 text-sage hover:underline"
             >
               {websiteUrl.replace(/^https?:\/\//, "")}
             </a>
