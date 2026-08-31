@@ -43,12 +43,13 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
         
           {product.photoUrls ? (
                   <ProductPhotoBadge
-          photoUrls={product.photoUrls}
-          productName={product.name}
-          variety={product.variety}
-          originRegion={product.originRegion}
-          originCountry={product.originCountry}
-        />
+  photoUrls={product.photoUrls}
+  productName={product.name}
+  nameEn={product.nameEn}
+  variety={product.variety}
+  originRegion={product.originRegion}
+  originCountry={product.originCountry}
+/>
         ) : (
           <div className="mb-6">
             <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">
@@ -56,7 +57,8 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
               {product.originCountry}
             </p>
             <h1 className="font-display text-3xl leading-tight text-ink">{product.name}</h1>
-            {product.variety && <p className="font-display italic text-ink/60">{product.variety}</p>}
+{product.nameEn && <p className="text-sm text-ink/60">{product.nameEn}</p>}
+{product.variety && <p className="font-display italic text-ink/60">{product.variety}</p>}
           </div>
         )}
 
