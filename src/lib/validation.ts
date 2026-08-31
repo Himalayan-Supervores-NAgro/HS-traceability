@@ -79,6 +79,7 @@ export const settingsSchema = z.object({
   contactEmail: z.string().email().optional().or(z.literal("")).nullable(),
   contactPhone: z.string().optional().nullable(),
   logoUrl: z.string().optional().nullable(),
+  websiteUrl: z.string().url().optional().or(z.literal("")).nullable(),
 });
 
 export const loginSchema = z.object({
