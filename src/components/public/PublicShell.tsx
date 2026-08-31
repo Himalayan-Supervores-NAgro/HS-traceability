@@ -15,20 +15,20 @@ export function PublicShell({
         <header className="mb-6 flex flex-col items-center justify-center gap-1">
           <img src="/logo.png" alt={companyName} className="h-14 w-auto" />
           <p className="label-eyebrow text-sage">Traceability</p>
-        </header>
-        <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
-        <footer className="mt-6 text-center text-xs text-sage">
-          <p>Powered by GS1 Digital Link - scan any {companyName} QR Code to verify origin.</p>
           {websiteUrl && (
             <a
               href={websiteUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 inline-block text-pine-700 hover:underline"
+              className="mt-1 text-base font-semibold text-pine-700 hover:underline"
             >
               {websiteUrl.replace(/^https?:\/\//, "")}
             </a>
           )}
+        </header>
+        <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
+        <footer className="mt-6 text-center text-xs text-sage">
+          <p>Powered by GS1 Digital Link - scan any {companyName} QR Code to verify origin.</p>
         </footer>
       </div>
     </div>
