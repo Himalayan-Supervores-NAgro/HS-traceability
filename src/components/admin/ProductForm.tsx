@@ -217,9 +217,9 @@ export function ProductForm({
         <Field label="Product name" required>
           <input className="field-input" required value={values.name} onChange={(e) => set("name", e.target.value)} />
         </Field>
-        <Field label="English name">
-          <input className="field-input" value={values.nameEn} onChange={(e) => set("nameEn", e.target.value)} />
-        </Field>
+        <Field label="Nepali name">
+  <input className="field-input" value={values.nameEn} onChange={(e) => set("nameEn", e.target.value)} />
+</Field>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

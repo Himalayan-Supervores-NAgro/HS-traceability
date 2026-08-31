@@ -45,7 +45,7 @@ export default async function LotPublicPage({
   const producer = product.producer;
 
   return (
-    <PublicShell companyName={settingsResult.companyName} websiteUrl={settingsResult.websiteUrl}>
+    <PublicShell companyName={settingsResult.companyName} websiteUrl={settingsResult.websiteUrl} contactEmail={settingsResult.contactEmail} contactPhone={settingsResult.contactPhone}>
       <div className="p-6">
         {product.photoUrls ? (
           <ProductPhotoBadge

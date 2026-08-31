@@ -3,10 +3,14 @@ import Link from "next/link";
 export function PublicShell({
   companyName,
   websiteUrl,
+  contactEmail,
+  contactPhone,
   children,
 }: {
   companyName: string;
   websiteUrl?: string | null;
+  contactEmail?: string | null;
+  contactPhone?: string | null;
   children: React.ReactNode;
 }) {
   return (
@@ -29,6 +33,21 @@ export function PublicShell({
         <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
         <footer className="mt-6 text-center text-xs text-sage">
           <p>Powered by GS1 Digital Link - scan any {companyName} QR Code to verify origin.</p>
+          {(contactEmail || contactPhone) && (
+            <p className="mt-2 space-x-2">
+              {contactEmail && (
+                <a href={`mailto:${contactEmail}`} className="hover:underline">
+                  {contactEmail}
+                </a>
+              )}
+              {contactEmail && contactPhone && <span>·</span>}
+              {contactPhone && (
+                <a href={`tel:${contactPhone}`} className="hover:underline">
+                  {contactPhone}
+                </a>
+              )}
+            </p>
+          )}
         </footer>
       </div>
     </div>
