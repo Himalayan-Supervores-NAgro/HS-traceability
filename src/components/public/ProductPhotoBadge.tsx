@@ -14,17 +14,19 @@ interface ProductPhotoBadgeProps {
 
 function NepalFlagIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 60 82" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 100 130" className={className} xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M3 3 L45 3 L23 35 L47 35 L25 68 L3 68 Z"
+        d="M6 6 L92 40 L28 56 L92 118 L6 124 Z"
         fill="#DC143C"
         stroke="#003893"
-        strokeWidth="4"
+        strokeWidth="5"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      <circle cx="21" cy="18" r="6" fill="#FFFFFF" />
-      <path d="M14 50 a9 9 0 1 0 12 12 a6.5 6.5 0 1 1 -12 -12 Z" fill="#FFFFFF" />
+      {/* Moon on the upper pennant */}
+      <path d="M28 22 a8 8 0 1 0 10 12 a6 6 0 1 1 -10 -12 Z" fill="#FFFFFF" />
+      {/* Sun on the lower pennant */}
+      <circle cx="34" cy="92" r="7" fill="#FFFFFF" />
     </svg>
   );
 }

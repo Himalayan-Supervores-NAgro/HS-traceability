@@ -27,7 +27,10 @@ export default async function ProductRefPublicPage({ params }: { params: { code:
   const latestLot = product.lots[0];
 
   return (
-    <PublicShell companyName={settings.companyName}>
+        <PublicShell
+  companyName={settings.companyName}
+  websiteUrl={settings.domain ? `https://${settings.domain}` : undefined}
+>
       <div className="p-6">
         {product.photoUrls ? (
                   <ProductPhotoBadge

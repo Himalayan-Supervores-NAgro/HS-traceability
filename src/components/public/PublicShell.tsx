@@ -1,9 +1,12 @@
 import Link from "next/link";
+
 export function PublicShell({
   companyName,
+  websiteUrl,
   children,
 }: {
   companyName: string;
+  websiteUrl?: string | null;
   children: React.ReactNode;
 }) {
   return (
@@ -15,12 +18,23 @@ export function PublicShell({
         </header>
         <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
         <footer className="mt-6 text-center text-xs text-sage">
-          <p>Powered by GS1 Digital Link — scan any {companyName} QR Code to verify origin.</p>
+          <p>Powered by GS1 Digital Link - scan any {companyName} QR Code to verify origin.</p>
+          {websiteUrl && (
+            <a
+              href={websiteUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 inline-block text-pine-700 hover:underline"
+            >
+              {websiteUrl.replace(/^https?:\/\//, "")}
+            </a>
+          )}
         </footer>
       </div>
     </div>
   );
 }
+
 export function InfoRow({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null;
   return (
@@ -30,6 +44,7 @@ export function InfoRow({ label, value }: { label: string; value?: string | null
     </div>
   );
 }
+
 export function NotFoundCard({ title, message }: { title: string; message: string }) {
   return (
     <div className="p-8 text-center">

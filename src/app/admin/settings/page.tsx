@@ -13,13 +13,14 @@ export default async function SettingsPage() {
     <div>
       <PageHeader title="Settings" description="Company identity and the domain used for GS1 Digital Link URLs." />
       <SettingsForm
-        initial={{
+                initial={{
           companyName: settings.companyName,
           domain: settings.domain,
           country: settings.country,
           contactEmail: settings.contactEmail ?? "",
           contactPhone: settings.contactPhone ?? "",
           logoUrl: settings.logoUrl ?? "",
+          websiteUrl: settings.websiteUrl ?? "",
         }}
       />
     </div>

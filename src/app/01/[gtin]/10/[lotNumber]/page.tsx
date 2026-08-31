@@ -21,7 +21,7 @@ export default async function LotPublicPage({
   const raw = params.gtin;
   const stripped = raw.replace(/^0+/, "");
 
-    const product = await db.product.findFirst({
+  const product = await db.product.findFirst({
     where: {
       OR: [{ gtin: raw }, { gtin: stripped }, { gtin: raw.padStart(14, "0") }],
     },
@@ -45,16 +45,19 @@ export default async function LotPublicPage({
   const producer = product.producer;
 
   return (
-    <PublicShell companyName={settingsResult.companyName}>
+    <PublicShell
+  companyName={settingsResult.companyName}
+  websiteUrl={settingsResult.domain ? `https://${settingsResult.domain}` : undefined}
+>
       <div className="p-6">
         {product.photoUrls ? (
-                  <ProductPhotoBadge
-          photoUrls={product.photoUrls}
-          productName={product.name}
-          variety={product.variety}
-          originRegion={product.originRegion}
-          originCountry={product.originCountry}
-        />
+          <ProductPhotoBadge
+            photoUrls={product.photoUrls}
+            productName={product.name}
+            variety={product.variety}
+            originRegion={product.originRegion}
+            originCountry={product.originCountry}
+          />
         ) : (
           <div className="mb-6">
             <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">
@@ -99,7 +102,7 @@ export default async function LotPublicPage({
             >
               {producer.name} — <span className="text-sage">{producer.farmName}</span>
             </Link>
-            
+
             {producer.gpsLat != null && producer.gpsLng != null && (
               <LocationMap lat={producer.gpsLat} lng={producer.gpsLng} label={producer.farmName} />
             )}

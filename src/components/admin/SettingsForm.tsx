@@ -11,6 +11,7 @@ export type SettingsValues = {
   contactEmail: string;
   contactPhone: string;
   logoUrl: string;
+  websiteUrl: string;
 };
 
 export function SettingsForm({ initial }: { initial: SettingsValues }) {
@@ -47,9 +48,20 @@ export function SettingsForm({ initial }: { initial: SettingsValues }) {
     <form onSubmit={handleSubmit} className="card max-w-xl space-y-6 p-6">
       {error && <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
+            <div>
+        <label className="field-label">Logo URL</label>
+        <input className="field-input" value={values.logoUrl} onChange={(e) => set("logoUrl", e.target.value)} />
+      </div>
+
       <div>
-        <label className="field-label">Company name</label>
-        <input className="field-input" value={values.companyName} onChange={(e) => set("companyName", e.target.value)} />
+        <label className="field-label">Company website</label>
+        <input
+          className="field-input"
+          value={values.websiteUrl}
+          onChange={(e) => set("websiteUrl", e.target.value)}
+          placeholder="https://himalayansupervores.com"
+        />
+        <p className="mt-1 text-xs text-sage">Shown as a link on every public traceability page.</p>
       </div>
 
       <div>

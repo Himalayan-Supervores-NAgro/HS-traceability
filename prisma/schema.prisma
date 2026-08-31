@@ -37,6 +37,7 @@ model Settings {
   contactEmail String?
   contactPhone String?
   logoUrl      String?
+  websiteUrl   String?
 }
 
 /// A farm / grower supplying one or more products.
