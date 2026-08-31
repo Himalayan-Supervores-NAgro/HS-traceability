@@ -38,10 +38,7 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
   const latestLot = product.lots[0];
 
   return (
-        <PublicShell
-  companyName={settings.companyName}
-  websiteUrl={settings.domain ? `https://${settings.domain}` : undefined}
->
+       <PublicShell companyName={settings.companyName} websiteUrl={settings.websiteUrl}>
       <div className="p-6">
         
           {product.photoUrls ? (
