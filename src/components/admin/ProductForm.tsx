@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { computeGtinCheckDigit, cleanGtin } from "@/lib/gs1";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { X } from "lucide-react";
+import { csvList } from "@/lib/utils";
 
 export type ProducerOption = { id: string; name: string; farmName: string };
 
@@ -27,7 +29,7 @@ export type ProductFormValues = {
   weight: string;
   packagingType: string;
   certifications: string;
-  photoUrl: string;
+  photoUrls: string;
   isActive: boolean;
 };
 
@@ -49,7 +51,7 @@ const EMPTY: ProductFormValues = {
   weight: "",
   packagingType: "",
   certifications: "",
-  photoUrl: "",
+  photoUrls: "",
   isActive: true,
 };
 
@@ -67,7 +69,46 @@ function gtinHint(gtin: string): { valid: boolean; message: string } {
   }
   return { valid: true, message: "Valid GTIN check digit." };
 }
+function ProductPhotosEditor({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  const urls = csvList(value);
 
+  function addPhoto(url: string) {
+    if (!url) return;
+    onChange([...urls, url].join(","));
+  }
+
+  function removePhoto(index: number) {
+    onChange(urls.filter((_, i) => i !== index).join(","));
+  }
+
+  return (
+    <div>
+      {urls.length > 0 && (
+        <div className="mb-2 flex flex-wrap gap-2">
+          {urls.map((url, i) => (
+            <div key={i} className="relative">
+              <img src={url} alt="" className="h-20 w-20 rounded-md object-cover" />
+              <button
+                type="button"
+                onClick={() => removePhoto(i)}
+                className="absolute -right-1.5 -top-1.5 rounded-full bg-ink p-0.5 text-paper hover:bg-red-700"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      <ImageUpload value="" onChange={addPhoto} />
+    </div>
+  );
+}
 export function ProductForm({
   initial,
   producers,
@@ -258,8 +299,8 @@ export function ProductForm({
         />
       </Field>
 
-      <Field label="Photo">
-        <ImageUpload value={values.photoUrl} onChange={(url) => set("photoUrl", url)} />
+            <Field label="Photos">
+        <ProductPhotosEditor value={values.photoUrls} onChange={(v) => set("photoUrls", v)} />
       </Field>
 
 

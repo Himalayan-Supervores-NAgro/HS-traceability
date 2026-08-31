@@ -72,7 +72,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             weight: product.weight ?? "",
             packagingType: product.packagingType ?? "",
             certifications: product.certifications ?? "",
-            photoUrl: product.photoUrl ?? "",
+            photoUrls: product.photoUrls ?? "",
             isActive: product.isActive,
           }}
         />

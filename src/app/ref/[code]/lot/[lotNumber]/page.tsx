@@ -42,14 +42,14 @@ export default async function LotRefPublicPage({
   return (
     <PublicShell companyName={settingsResult.companyName}>
       <div className="p-6">
-        {product.photoUrl ? (
-          <ProductPhotoBadge
-            photoUrl={product.photoUrl}
-            productName={product.name}
-            variety={product.variety}
-            originRegion={product.originRegion}
-            originCountry={product.originCountry}
-          />
+        {product.photoUrls ? (
+                  <ProductPhotoBadge
+          photoUrls={product.photoUrls}
+          productName={product.name}
+          variety={product.variety}
+          originRegion={product.originRegion}
+          originCountry={product.originCountry}
+        />
         ) : (
           <div className="mb-6">
             <p className="mb-1 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-sage">

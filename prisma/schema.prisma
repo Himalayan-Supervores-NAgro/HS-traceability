@@ -98,7 +98,7 @@ model Product {
   weight         String?
   packagingType  String?
   certifications String?
-  photoUrl       String?
+  photoUrls       String?
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

@@ -40,7 +40,7 @@ const productBaseSchema = z.object({
   weight: z.string().optional().nullable(),
   packagingType: z.string().optional().nullable(),
   certifications: z.string().optional().nullable(),
-  photoUrl: z.string().optional().nullable(),
+  photoUrls: z.string().optional().nullable(),
   isActive: z.coerce.boolean().default(true),
 });
 
