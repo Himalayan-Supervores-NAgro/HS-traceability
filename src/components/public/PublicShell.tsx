@@ -34,23 +34,23 @@ export function PublicShell({
         <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
 
         {(contactEmail || contactPhone) && (
-          <div className="mt-4 rounded-xl bg-pine-900 px-5 py-4 text-center">
-            <p className="label-eyebrow mb-3 text-paper/60">Get in touch</p>
+          <div className="mt-4 rounded-xl border border-line bg-paper px-5 py-4 text-center">
+            <p className="label-eyebrow mb-3 text-sage">Get in touch</p>
             <div className="flex flex-col items-center gap-2">
               {contactEmail && (
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="flex items-center gap-2 text-sm font-medium text-paper hover:text-marigold-400"
+                  className="flex items-center gap-2 text-sm font-medium text-ink hover:text-pine-700"
                 >
-                  <Mail className="h-4 w-4" /> {contactEmail}
+                  <Mail className="h-4 w-4 text-sage" /> {contactEmail}
                 </a>
               )}
               {contactPhone && (
                 <a
                   href={`tel:${contactPhone}`}
-                  className="flex items-center gap-2 text-sm font-medium text-paper hover:text-marigold-400"
+                  className="flex items-center gap-2 text-sm font-medium text-ink hover:text-pine-700"
                 >
-                  <Phone className="h-4 w-4" /> {contactPhone}
+                  <Phone className="h-4 w-4 text-sage" /> {contactPhone}
                 </a>
               )}
             </div>
