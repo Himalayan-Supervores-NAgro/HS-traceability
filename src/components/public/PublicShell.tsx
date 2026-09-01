@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail, Phone } from "lucide-react";
 
 export function PublicShell({
   companyName,
@@ -31,23 +32,33 @@ export function PublicShell({
           )}
         </header>
         <div className="rounded-2xl bg-paper shadow-xl">{children}</div>
+
+        {(contactEmail || contactPhone) && (
+          <div className="mt-4 rounded-xl bg-pine-900 px-5 py-4 text-center">
+            <p className="label-eyebrow mb-3 text-paper/60">Get in touch</p>
+            <div className="flex flex-col items-center gap-2">
+              {contactEmail && (
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="flex items-center gap-2 text-sm font-medium text-paper hover:text-marigold-400"
+                >
+                  <Mail className="h-4 w-4" /> {contactEmail}
+                </a>
+              )}
+              {contactPhone && (
+                <a
+                  href={`tel:${contactPhone}`}
+                  className="flex items-center gap-2 text-sm font-medium text-paper hover:text-marigold-400"
+                >
+                  <Phone className="h-4 w-4" /> {contactPhone}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+
         <footer className="mt-6 text-center text-xs text-sage">
           <p>Powered by GS1 Digital Link - scan any {companyName} QR Code to verify origin.</p>
-          {(contactEmail || contactPhone) && (
-            <p className="mt-2 space-x-2">
-              {contactEmail && (
-                <a href={`mailto:${contactEmail}`} className="hover:underline">
-                  {contactEmail}
-                </a>
-              )}
-              {contactEmail && contactPhone && <span>·</span>}
-              {contactPhone && (
-                <a href={`tel:${contactPhone}`} className="hover:underline">
-                  {contactPhone}
-                </a>
-              )}
-            </p>
-          )}
         </footer>
       </div>
     </div>

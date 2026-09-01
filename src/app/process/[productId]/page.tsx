@@ -36,7 +36,7 @@ export default async function ProcessPage({ params }: { params: { productId: str
           {product.processSteps.length} step{product.processSteps.length > 1 ? "s" : ""} from harvest to pack
         </p>
 
-        <div className="mt-4 divide-y divide-line">
+                <div className="mt-4 divide-y-2 divide-dashed divide-pine-100">
           {product.processSteps.map((step, i) => (
             <ProcessStepPanel
               key={step.id}
