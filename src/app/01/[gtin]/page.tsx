@@ -10,6 +10,7 @@ import { ProductPhotoBadge } from "@/components/public/ProductPhotoBadge";
 import { ProductSpecs } from "@/components/public/ProductSpecs";
 import { ReferenceFooter } from "@/components/public/ReferenceFooter";
 import { ProcessSteps } from "@/components/public/ProcessSteps";
+import { CertificationBadge } from "@/components/public/CertificationBadge";
 
 export const dynamic = "force-dynamic";
 
@@ -70,10 +71,8 @@ export default async function ProductPublicPage({ params }: { params: { gtin: st
           <div className="mt-5">
             <p className="label-eyebrow mb-2">Certification</p>
             <div className="flex flex-wrap gap-2">
-              {certifications.map((c) => (
-                <span key={c} className="badge bg-pine-50 text-pine-700">
-                  <ShieldCheck className="h-3 w-3" /> {c}
-                </span>
+                            {certifications.map((c) => (
+                <CertificationBadge key={c} name={c} />
               ))}
             </div>
           </div>
