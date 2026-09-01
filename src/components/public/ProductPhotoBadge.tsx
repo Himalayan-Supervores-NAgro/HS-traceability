@@ -14,23 +14,6 @@ interface ProductPhotoBadgeProps {
   originCountry: string;
 }
 
-function NepalFlagIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 100 130" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M6 6 L92 40 L28 56 L92 118 L6 124 Z"
-        fill="#DC143C"
-        stroke="#003893"
-        strokeWidth="5"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-      <path d="M28 22 a8 8 0 1 0 10 12 a6 6 0 1 1 -10 -12 Z" fill="#FFFFFF" />
-      <circle cx="34" cy="92" r="7" fill="#FFFFFF" />
-    </svg>
-  );
-}
-
 export function ProductPhotoBadge({
   photoUrls,
   productName,
@@ -65,12 +48,6 @@ export function ProductPhotoBadge({
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
 
-        {originCountry?.toLowerCase() === "nepal" && (
-          <div className="absolute right-4 top-4 h-9 w-9 drop-shadow-md">
-            <NepalFlagIcon className="h-full w-full" />
-          </div>
-        )}
-
         {photos.length > 1 && (
           <>
             <button
@@ -104,7 +81,7 @@ export function ProductPhotoBadge({
             {originRegion ? `${originRegion}, ` : ""}
             {originCountry}
           </p>
-                    <h1 className="font-display text-3xl leading-tight text-paper">{productName}</h1>
+          <h1 className="font-display text-3xl leading-tight text-paper">{productName}</h1>
           {nameEn && <p className="text-sm text-paper/70">{nameEn}</p>}
           {variety && <p className="font-display italic text-paper/75">{variety}</p>}
         </div>
