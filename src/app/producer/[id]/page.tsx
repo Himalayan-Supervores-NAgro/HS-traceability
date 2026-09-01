@@ -5,6 +5,7 @@ import { PublicShell, InfoRow } from "@/components/public/PublicShell";
 import { csvList } from "@/lib/utils";
 import { MapPin, ShieldCheck } from "lucide-react";
 import { LocationMap } from "@/components/public/LocationMap";
+import { ProducerPhotoGallery } from "@/components/public/ProducerPhotoGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -25,13 +26,7 @@ export default async function ProducerPublicPage({ params }: { params: { id: str
   return (
     <PublicShell companyName={settings.companyName}>
       <div className="p-6">
-        {producer.photoUrl && (
-          <img
-            src={producer.photoUrl}
-            alt={producer.name}
-            className="mb-5 aspect-[4/3] w-full rounded-xl object-cover"
-          />
-        )}
+                <ProducerPhotoGallery photoUrls={producer.photoUrls} alt={producer.name} />
 
         <p className="label-eyebrow">Producer</p>
         <h1 className="font-display text-3xl leading-tight text-ink">{producer.name}</h1>
@@ -69,8 +64,8 @@ export default async function ProducerPublicPage({ params }: { params: { id: str
             <ul className="space-y-1">
               {producer.products.map((p) => (
                 <li key={p.id}>
-                  <Link
-                    href={`/01/${p.gtin}`}
+                                    <Link
+                    href={p.gtin ? `/01/${p.gtin}` : `/ref/${p.internalRef}`}
                     className="block rounded-md border border-line px-3 py-2 text-sm hover:bg-pine-50/60"
                   >
                     {p.name}

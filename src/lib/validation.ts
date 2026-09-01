@@ -15,7 +15,7 @@ export const producerSchema = z.object({
   contactPhone: z.string().optional().nullable(),
   email: z.string().email().optional().or(z.literal("")).nullable(),
   certifications: z.string().optional().nullable(),
-  photoUrl: z.string().optional().nullable(),
+  photoUrls: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
   isActive: z.coerce.boolean().default(true),
   isPublic: z.coerce.boolean().default(true),

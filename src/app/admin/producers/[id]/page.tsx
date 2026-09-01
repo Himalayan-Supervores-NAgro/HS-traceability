@@ -55,7 +55,7 @@ export default async function ProducerDetailPage({ params }: { params: { id: str
             contactPhone: producer.contactPhone ?? "",
             email: producer.email ?? "",
             certifications: producer.certifications ?? "",
-            photoUrl: producer.photoUrl ?? "",
+            photoUrls: producer.photoUrls ?? "",
             description: producer.description ?? "",
             isActive: producer.isActive,
             isPublic: producer.isPublic,

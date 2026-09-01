@@ -57,7 +57,7 @@ model Producer {
   email          String?
   /// Comma-separated list, e.g. "GlobalG.A.P.,Organic Nepal"
   certifications String?
-  photoUrl       String?
+  photoUrls       String?
   description    String?
   isActive       Boolean  @default(true)
   /// When false, only the name + district are ever shown on public pages.
