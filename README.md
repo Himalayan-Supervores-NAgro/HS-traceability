@@ -407,3 +407,5 @@ Manual smoke test once you're running locally with seed data:
 
 Next.js 14 · TypeScript · Prisma · PostgreSQL · Tailwind CSS · zod ·
 bcryptjs · jose (JWT) · qrcode · papaparse · lucide-react
+
+test de connexion
